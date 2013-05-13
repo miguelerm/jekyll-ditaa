@@ -18,9 +18,9 @@ module Jekyll
       ditaa.gsub!(/\\\\/, "\\")
 
       hash = Digest::MD5.hexdigest(@nodelist.to_s + options)
-      ditaa_home = 'images/ditaa/'
+      ditaa_home = File.join('images', 'ditaa') #dirpath images/ditaa
       FileUtils.mkdir_p(ditaa_home)
-      @png_name = ditaa_home + 'ditaa-' + hash + '.png'
+      @png_name = File.join(ditaa_home, "ditaa-#{hash}.png") #filepath images/ditaa/ditaa-computedhash.png
 
       if ditaa_exists
         if not File.exists?(@png_name)
@@ -34,7 +34,7 @@ module Jekyll
 
     def render(context)
       if @png_exists
-        '<figure><a href="/' + @png_name + '" title="' + @png_name + '" ><img src="/' + @png_name + '" title="' + @png_name + '" max-width="99%" /></a></figure>'
+        %Q|<figure><a href="/#{@png_name}" title="#{@png_name}"><img src="/#{@png_name}" title="#{@png_name}" max-width="99%" /></a></figure>|
       else
         '<code><pre>' + super + '</pre></code>'
       end
