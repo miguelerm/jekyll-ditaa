@@ -31,6 +31,7 @@ module Jekyll
           temp_file.write(ditaa)
           temp_file.close
           @png_exists = system("java -jar #{ditaa_jar} #{temp_file.path} #{@png_name} #{args}")
+          temp_file.unlink
         end
       end
       @png_exists = File.exists?(@png_name)
